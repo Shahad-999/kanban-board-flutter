@@ -22,8 +22,11 @@ class BoardDetailsUseCase {
     if(firstListIndex !=null && secondListIndex !=null){
       final firstList = currentList[firstListIndex];
       final secondList = currentList[secondListIndex];
-      repository.reorderList(firstList.id, secondList.order);
-      repository.reorderList(secondList.id, firstList.order);
+      await repository.reorderList(firstList.id, secondList.order);
+      await repository.reorderList(secondList.id, firstList.order);
     }
+  }
+  Future moveItem(itemId, newListId)async{
+    await repository.moveItem(itemId, newListId);
   }
 }

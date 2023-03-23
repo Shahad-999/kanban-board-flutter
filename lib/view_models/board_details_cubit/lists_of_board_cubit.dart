@@ -36,7 +36,12 @@ class ListsOfBoardCubit extends Cubit<List<ListUi>> {
         lastUpdateDate: DateTime.now())
     );
   }
-  void reorder(int? newListIndex,int? oldListIndex){
+  void reorderLists(int? newListIndex,int? oldListIndex){
     boardDetailsUseCase.reorderList(newListIndex, oldListIndex,currentList);
+  }
+  void moveItem(int listIndex, int oldListIndex, int oldItemIndex){
+      ListModel list = currentList[listIndex];
+      ItemModel item = currentList[oldListIndex].items[oldItemIndex];
+      boardDetailsUseCase.moveItem(item.id, list.id);
   }
 }

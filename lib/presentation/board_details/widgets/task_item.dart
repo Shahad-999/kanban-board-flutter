@@ -1,11 +1,17 @@
 import 'package:boardview/board_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:size_config/size_config.dart';
 
 import '../../../view_models/board_details_cubit/lists_of_board_cubit.dart';
 
 Widget buildTaskItem(BuildContext context,ItemUi item){
   return BoardItem(
+    onDropItem: (int? listIndex, int? itemIndex, int? oldListIndex, int? oldItemIndex, BoardItemState? state) {
+      if(listIndex !=null && itemIndex !=null && oldItemIndex !=null && oldListIndex !=null){
+          context.read<ListsOfBoardCubit>().moveItem(listIndex, oldListIndex, oldItemIndex);
+      }
+    } ,
     item: Padding(
       padding: EdgeInsets.only(top: 4.h),
       child: Container(

@@ -11,9 +11,8 @@ Widget buildListWidget(BuildContext context,ListUi list){
   for (int i = 0; i < list.items.length; i++) {
     items.insert(i, buildTaskItem(context,list.items[i]) as BoardItem);
   }
-
   return BoardList(
-    onDropList: context.read<ListsOfBoardCubit>().reorder,
+    onDropList: context.read<ListsOfBoardCubit>().reorderLists,
     backgroundColor: Colors.transparent,
     items: items,
     header: [Expanded(
