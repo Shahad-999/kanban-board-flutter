@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kanban_board_flutter/view_models/board_details_cubit/board_details_cubit.dart';
 import 'package:kanban_board_flutter/view_models/board_details_cubit/lists_of_board_cubit.dart';
 import 'package:size_config/size_config.dart';
 
+import 'board_header.dart';
 import 'list_widget.dart';
 
 class BoardDetailsBody extends StatelessWidget {
@@ -15,7 +15,7 @@ class BoardDetailsBody extends StatelessWidget {
       builder: (context, state) {
         return ListView(
           children: [
-            boardHeader(context),
+            const BoardHeader(),
             if(state.isNotEmpty) Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: ListView.builder(
@@ -33,32 +33,11 @@ class BoardDetailsBody extends StatelessWidget {
       },
     );
   }
+
   Widget _noListFound(){
     return const Center(
       child: Icon(Icons.hourglass_empty),
     );
   }
-  Widget boardHeader(BuildContext context){
-    return BlocBuilder<BoardDetailsCubit, BoardDetailsState>(
-      builder: (context, state) {
-        final String title;
-        if(state is BoardDetailsSuccessfully) {
-          title = (state).title;
-        } else {
-          title =  '';
-        }
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
-          child: Text(
-              title,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontSize: 20.sp, fontWeight: FontWeight.w500),
-          ),
-        );
-      },
 
-    );
-  }
 }
