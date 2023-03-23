@@ -106,4 +106,9 @@ class KanbanRepositoryImp extends KanbanRepository {
   Future<int> moveItem(int itemId, int listId) {
     return itemDao.moveItem(itemId, listId);
   }
+
+  @override
+  Future<int> reorderList(int listId, int newOrder) {
+    return listDao.updateList(listId, newOrder);
+  }
 }

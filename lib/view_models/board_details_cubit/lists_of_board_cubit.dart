@@ -17,16 +17,16 @@ class ListsOfBoardCubit extends Cubit<List<ListUi>> {
       : boardDetailsUseCase = getIt.get(),
         createListUseCase = getIt.get(),
       super([]);
-  
+
+  late List<ListModel> currentList ;
   void getLists(int boardId){
     boardDetailsUseCase.getListsForBoard(boardId).listen((event) {
+      currentList = event;
       emit(ListUi.fromModels(event));
     });
   }
 
   Future createList(int boardId, String title) async {
-    print(state);
-    print(state.length);
     await createListUseCase.createList(ListModel(
         id: 0,
         boardId: boardId,
@@ -35,5 +35,13 @@ class ListsOfBoardCubit extends Cubit<List<ListUi>> {
         createdDate: DateTime.now(),
         lastUpdateDate: DateTime.now())
     );
+  }
+  void reorderLists(int? newListIndex,int? oldListIndex){
+    boardDetailsUseCase.reorderList(newListIndex, oldListIndex,currentList);
+  }
+  void moveItem(int listIndex, int oldListIndex, int oldItemIndex){
+      ListModel list = currentList[listIndex];
+      ItemModel item = currentList[oldListIndex].items[oldItemIndex];
+      boardDetailsUseCase.moveItem(item.id, list.id);
   }
 }

@@ -18,6 +18,7 @@ abstract class KanbanRepository{
   Stream<List<ListModel>> getAllList(int boardId);
   Future<int>  addList(ListModel list);
   Future deleteList(int listId);
+  Future<int> reorderList(int listId, int newOrder);
   //endregion list
 
   //region item

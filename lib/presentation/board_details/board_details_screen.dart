@@ -32,7 +32,7 @@ class BoardDetailsScreen extends StatelessWidget {
         appBar: NavigationAppBar(
           actions: [favoriteAction(context), infoAction(context, () {})],
         ),
-        body: const BoardDetailsBody(),
+        body:  BoardDetailsBody(),
         backgroundColor: Theme.of(context).colorScheme.background,
         floatingActionButton: AppFloatingActionButton(
           onPressed: () {

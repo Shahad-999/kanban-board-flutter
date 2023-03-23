@@ -17,4 +17,16 @@ class BoardDetailsUseCase {
   Stream<List<ListModel>> getListsForBoard(int boardId) {
     return repository.getAllList(boardId);
   }
+
+  Future reorderList(int? firstListIndex,int? secondListIndex,List<ListModel> currentList) async{
+    if(firstListIndex !=null && secondListIndex !=null){
+      final firstList = currentList[firstListIndex];
+      final secondList = currentList[secondListIndex];
+      await repository.reorderList(firstList.id, secondList.order);
+      await repository.reorderList(secondList.id, firstList.order);
+    }
+  }
+  Future moveItem(itemId, newListId)async{
+    await repository.moveItem(itemId, newListId);
+  }
 }
