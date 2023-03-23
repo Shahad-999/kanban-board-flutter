@@ -9,15 +9,11 @@ class ListHeader extends StatelessWidget {
   const ListHeader(
       {Key? key,
       required this.title,
-      required this.listId,
-      required this.showItems,
-      required this.onClickShow})
+      required this.listId})
       : super(key: key);
 
   final String title;
   final int listId;
-  final bool showItems;
-  final VoidCallback onClickShow;
 
   void onClickAddItem(BuildContext context) {
     showModalBottomSheet(
@@ -39,9 +35,7 @@ class ListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onClickShow,
-      child: Container(
+    return  Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Theme.of(context).colorScheme.secondary),
@@ -58,17 +52,14 @@ class ListHeader extends StatelessWidget {
               IconButton(
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
-                  onPressed: showItems
-                      ? () {
+                  onPressed: () {
                           onClickAddItem(context);
                         }
-                      : onClickShow,
-                  icon: Icon(
-                      showItems ? Icons.add : Icons.keyboard_arrow_up_outlined))
+                     ,
+                  icon: const Icon(Icons.add ))
             ],
           ),
         ),
-      ),
     );
   }
 }

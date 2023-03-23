@@ -1,16 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:boardview/board_item.dart';
 import 'package:flutter/material.dart';
 import 'package:size_config/size_config.dart';
 
 import '../../../view_models/board_details_cubit/lists_of_board_cubit.dart';
 
-class TaskItem extends StatelessWidget {
-  const TaskItem({Key? key, required this.item}) : super(key: key);
-
-  final  ItemUi item;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
+Widget buildTaskItem(BuildContext context,ItemUi item){
+  return BoardItem(
+    item: Padding(
       padding: EdgeInsets.only(top: 4.h),
       child: Container(
         decoration: BoxDecoration(
@@ -45,6 +41,6 @@ class TaskItem extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }

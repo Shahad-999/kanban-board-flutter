@@ -1,42 +1,26 @@
+import 'package:boardview/board_item.dart';
+import 'package:boardview/board_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kanban_board_flutter/presentation/board_details/widgets/task_item.dart';
 import 'package:kanban_board_flutter/view_models/board_details_cubit/lists_of_board_cubit.dart';
-import 'package:size_config/size_config.dart';
-import 'items.dart';
 import 'list_header.dart';
 
-class ListWidget extends StatefulWidget {
-  const ListWidget({Key? key, required this.list}) : super(key: key);
-  final ListUi list;
+Widget buildListWidget(BuildContext context,ListUi list){
+  List<BoardItem> items = [];
+  for (int i = 0; i < list.items.length; i++) {
+    items.insert(i, buildTaskItem(context,list.items[i]) as BoardItem);
+  }
 
-  @override
-  State<ListWidget> createState() => _ListWidgetState();
-}
-
-class _ListWidgetState extends State<ListWidget> {
-  bool showItems = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
-      child: Column(
-        children: [
-          ListHeader(
-            title: widget.list.title,
-            listId: widget.list.id,
-            showItems: showItems,
-            onClickShow: onClickShow,
-          ),
-          if (showItems && widget.list.items.isNotEmpty)
-            Items(items: widget.list.items),
-        ],
+  return BoardList(
+    onDropList: context.read<ListsOfBoardCubit>().reorder,
+    backgroundColor: Colors.transparent,
+    items: items,
+    header: [Expanded(
+      child: ListHeader(
+        title: list.title,
+        listId: list.id,
       ),
-    );
-  }
-
-  void onClickShow() {
-    setState(() {
-      showItems = !showItems;
-    });
-  }
+    )],
+  );
 }

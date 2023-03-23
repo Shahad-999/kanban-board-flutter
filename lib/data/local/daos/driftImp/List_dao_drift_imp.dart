@@ -58,4 +58,13 @@ class ListDriftImp extends ListDao {
     });
   }
 
+  @override
+  Future<int> updateList(int listId, int order) {
+    return (database.update(database.lists)
+      ..where((tbl) => tbl.id.equals(listId)))
+        .write(ListsCompanion(
+        order: Value(order)
+    ));
+  }
+
 }
