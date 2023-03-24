@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:drift/drift.dart';
+import 'package:kanban_board_flutter/data/local/entities/recent_item_entity.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:drift/native.dart';
@@ -11,7 +12,7 @@ import 'entities/list_entity.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [Boards, Lists,Items])
+@DriftDatabase(tables: [Boards, Lists,Items,RecentItems])
 class MyDatabase extends _$MyDatabase {
 
   MyDatabase() : super(_openConnection());

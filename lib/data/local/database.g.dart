@@ -722,14 +722,117 @@ class ItemsCompanion extends UpdateCompanion<ItemEntity> {
   }
 }
 
+class $RecentItemsTable extends RecentItems
+    with TableInfo<$RecentItemsTable, RecentItemEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RecentItemsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _timeMeta = const VerificationMeta('time');
+  @override
+  late final GeneratedColumn<DateTime> time = GeneratedColumn<DateTime>(
+      'time', aliasedName, false,
+      check: () => time.isBiggerThan(Constant(DateTime(1950))),
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [time];
+  @override
+  String get aliasedName => _alias ?? 'recent_items';
+  @override
+  String get actualTableName => 'recent_items';
+  @override
+  VerificationContext validateIntegrity(Insertable<RecentItemEntity> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('time')) {
+      context.handle(
+          _timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  RecentItemEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RecentItemEntity(
+       attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+       attachedDatabase.typeMapping
+           .read(DriftSqlType.dateTime, data['${effectivePrefix}time'])!,
+    );
+  }
+
+  @override
+  $RecentItemsTable createAlias(String alias) {
+    return $RecentItemsTable(attachedDatabase, alias);
+  }
+}
+
+class RecentItemsCompanion extends UpdateCompanion<RecentItemEntity> {
+  final Value<DateTime> time;
+  final Value<int> id;
+  const RecentItemsCompanion({
+    this.time = const Value.absent(),
+    this.id = const Value.absent(),
+  });
+  RecentItemsCompanion.insert({
+    this.time = const Value.absent(),
+    this.id = const Value.absent(),
+  });
+  static Insertable<RecentItemEntity> custom({
+    Expression<DateTime>? time,
+    Expression<int>? id,
+  }) {
+    return RawValuesInsertable({
+      if (time != null) 'time': time,
+      if (id != null) 'id': id,
+    });
+  }
+
+  RecentItemsCompanion copyWith({Value<DateTime>? time, Value<int>? id}) {
+    return RecentItemsCompanion(
+      time: time ?? this.time,
+      id: id ?? this.id,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (time.present) {
+      map['time'] = Variable<DateTime>(time.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RecentItemsCompanion(')
+          ..write('time: $time, ')
+          ..write('id: $id')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
   late final $BoardsTable boards = $BoardsTable(this);
   late final $ListsTable lists = $ListsTable(this);
   late final $ItemsTable items = $ItemsTable(this);
+  late final $RecentItemsTable recentItems = $RecentItemsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [boards, lists, items];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [boards, lists, items, recentItems];
 }
