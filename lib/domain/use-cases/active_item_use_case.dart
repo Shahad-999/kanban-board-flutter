@@ -4,17 +4,13 @@ import 'package:kanban_board_flutter/service_locator.dart';
 
 import '../kanban_board_repository.dart';
 
-class ActiveItemsUseCase{
+class RecentItemsUseCase{
 
   final KanbanRepository repository;
-  ActiveItemsUseCase() : repository = getIt.get();
+  RecentItemsUseCase() : repository = getIt.get();
 
-  Stream<List<ItemModel>> getActiveItems(int limit){
-    return repository.getAllActiveItem().take(limit);
-  }
-
-  Stream<List<ItemModel>> getAllActiveItems(){
-    return repository.getAllActiveItem();
+  Stream<List<ItemModel>> getRecentItems(){
+    return repository.getRecentItem();
   }
 
 }

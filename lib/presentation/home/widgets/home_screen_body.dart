@@ -10,11 +10,7 @@ import 'item_section.dart';
 class HomeScreenBody extends StatelessWidget {
   HomeScreenBody({Key? key}) : super(key: key);
 
-  List<Widget> children = [const BoardSection()];
-
-  _addItemSection() {
-    children.insert(0, const ItemSection());
-  }
+  List<Widget> children = [const ItemSection(),const BoardSection()];
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +23,7 @@ class HomeScreenBody extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: BlocBuilder<ItemCubit, ItemState>(
                   builder: (context, state) {
-                    if (state is ItemLoaded) {
-                      _addItemSection();
-                    } else if (state is ItemEmpty) {
+                    if (state is ItemEmpty) {
                       children.removeWhere((element) => element is ItemSection);
                     }
                     return Column(

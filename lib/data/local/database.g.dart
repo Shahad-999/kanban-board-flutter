@@ -722,14 +722,142 @@ class ItemsCompanion extends UpdateCompanion<ItemEntity> {
   }
 }
 
+class $RecentItemsTable extends RecentItems
+    with TableInfo<$RecentItemsTable, RecentItemEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RecentItemsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  @override
+  late final GeneratedColumn<int> itemId = GeneratedColumn<int>(
+      'item_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES items (id)'));
+  static const VerificationMeta _timeMeta = const VerificationMeta('time');
+  @override
+  late final GeneratedColumn<DateTime> time = GeneratedColumn<DateTime>(
+      'time', aliasedName, false,
+      check: () => time.isBiggerThan(Constant(DateTime(1950))),
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [itemId, time];
+  @override
+  String get aliasedName => _alias ?? 'recent_items';
+  @override
+  String get actualTableName => 'recent_items';
+  @override
+  VerificationContext validateIntegrity(Insertable<RecentItemEntity> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id']!, _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
+    }
+    if (data.containsKey('time')) {
+      context.handle(
+          _timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => const {};
+  @override
+  RecentItemEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RecentItemEntity(
+      itemId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}item_id'])!,
+      time: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}time'])!,
+    );
+  }
+
+  @override
+  $RecentItemsTable createAlias(String alias) {
+    return $RecentItemsTable(attachedDatabase, alias);
+  }
+}
+
+class RecentItemsCompanion extends UpdateCompanion<RecentItemEntity> {
+  final Value<int> itemId;
+  final Value<DateTime> time;
+  final Value<int> rowid;
+  const RecentItemsCompanion({
+    this.itemId = const Value.absent(),
+    this.time = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  RecentItemsCompanion.insert({
+    required int itemId,
+    this.time = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : itemId = Value(itemId);
+  static Insertable<RecentItemEntity> custom({
+    Expression<int>? itemId,
+    Expression<DateTime>? time,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (itemId != null) 'item_id': itemId,
+      if (time != null) 'time': time,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  RecentItemsCompanion copyWith(
+      {Value<int>? itemId, Value<DateTime>? time, Value<int>? rowid}) {
+    return RecentItemsCompanion(
+      itemId: itemId ?? this.itemId,
+      time: time ?? this.time,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (itemId.present) {
+      map['item_id'] = Variable<int>(itemId.value);
+    }
+    if (time.present) {
+      map['time'] = Variable<DateTime>(time.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RecentItemsCompanion(')
+          ..write('itemId: $itemId, ')
+          ..write('time: $time, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
   late final $BoardsTable boards = $BoardsTable(this);
   late final $ListsTable lists = $ListsTable(this);
   late final $ItemsTable items = $ItemsTable(this);
+  late final $RecentItemsTable recentItems = $RecentItemsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [boards, lists, items];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [boards, lists, items, recentItems];
 }

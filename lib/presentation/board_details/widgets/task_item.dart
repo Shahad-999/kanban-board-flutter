@@ -7,6 +7,9 @@ import '../../../view_models/board_details_cubit/lists_of_board_cubit.dart';
 
 Widget buildTaskItem(BuildContext context,ItemUi item){
   return BoardItem(
+    onTapItem: (int? listIndex, int? itemIndex,BoardItemState? state){
+      if(itemIndex != null && listIndex != null) context.read<ListsOfBoardCubit>().onClickItem(listIndex,itemIndex);
+    },
     onDropItem: (int? listIndex, int? itemIndex, int? oldListIndex, int? oldItemIndex, BoardItemState? state) {
       if(listIndex !=null && itemIndex !=null && oldItemIndex !=null && oldListIndex !=null){
           context.read<ListsOfBoardCubit>().moveItem(listIndex, oldListIndex, oldItemIndex);

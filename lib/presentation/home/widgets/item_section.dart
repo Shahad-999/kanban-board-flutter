@@ -8,11 +8,6 @@ import 'item_row.dart';
 class ItemSection extends StatelessWidget {
   const ItemSection({Key? key}) : super(key: key);
 
-   _navToClickSeeMore(BuildContext context) {
-    context.read<ItemCubit>().clearItems();
-    //TODO nav to see all task active
-  }
-
   void _navToTaskDetails(int taskId) {
     //TODO nav to TaskDetails
   }
@@ -23,11 +18,10 @@ class ItemSection extends StatelessWidget {
       if (state is ItemLoaded) {
         return Column(children: [
           SectionHeader(
-              title: 'Active Tasks',
-              onClickSeeAll: (){_navToClickSeeMore(context);},
-              isSeeAllVisible: true),
+              title: 'Recent Tasks',
+              isSeeAllVisible: false),
           ListView.builder(
-              itemCount: state.items.take(3).length,
+              itemCount: state.items.length,
               shrinkWrap: true,
               physics: const ScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {

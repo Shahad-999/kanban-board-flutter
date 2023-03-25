@@ -2,6 +2,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanban_board_flutter/domain/models/item_model.dart';
 import 'package:kanban_board_flutter/domain/use-cases/create_list_use_case.dart';
+import 'package:kanban_board_flutter/domain/use-cases/watch_item_use_case.dart';
 
 import '../../domain/models/list_model.dart';
 import '../../domain/use-cases/board_details_use_case.dart';
@@ -12,10 +13,12 @@ part 'lists_of_board_state.dart';
 class ListsOfBoardCubit extends Cubit<List<ListUi>> {
   late final BoardDetailsUseCase boardDetailsUseCase;
   late final CreateListUseCase createListUseCase;
+  late final WatchItemsUseCase _watchItemsUseCase;
 
   ListsOfBoardCubit()
       : boardDetailsUseCase = getIt.get(),
         createListUseCase = getIt.get(),
+        _watchItemsUseCase = getIt.get(),
       super([]);
 
   late List<ListModel> currentList ;
@@ -43,5 +46,10 @@ class ListsOfBoardCubit extends Cubit<List<ListUi>> {
       ListModel list = currentList[listIndex];
       ItemModel item = currentList[oldListIndex].items[oldItemIndex];
       boardDetailsUseCase.moveItem(item.id, list.id);
+  }
+  void onClickItem(int listIndex,int itemIndex){
+    ItemModel item = currentList[listIndex].items[itemIndex];
+    print('cubit itemID : ${item.id}');
+    _watchItemsUseCase.watchItem(item.id);
   }
 }

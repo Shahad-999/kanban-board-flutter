@@ -11,6 +11,7 @@ import 'package:kanban_board_flutter/domain/kanban_board_repository.dart';
 import 'package:kanban_board_flutter/domain/use-cases/active_item_use_case.dart';
 import 'package:kanban_board_flutter/domain/use-cases/board_details_use_case.dart';
 import 'package:kanban_board_flutter/domain/use-cases/boards_use_case.dart';
+import 'package:kanban_board_flutter/domain/use-cases/watch_item_use_case.dart';
 import 'domain/use-cases/create_board_use_case.dart';
 import 'domain/use-cases/create_item_use_case.dart';
 import 'domain/use-cases/create_list_use_case.dart';
@@ -23,10 +24,11 @@ setup() {
   getIt.registerSingleton<ListDao>(ListDriftImp());
   getIt.registerSingleton<ItemDao>(ItemDriftImp());
   getIt.registerSingleton<KanbanRepository>(KanbanRepositoryImp());
-  getIt.registerSingleton<ActiveItemsUseCase>(ActiveItemsUseCase());
+  getIt.registerSingleton<RecentItemsUseCase>(RecentItemsUseCase());
   getIt.registerSingleton<BoardsUseCase>(BoardsUseCase());
   getIt.registerSingleton<CreateBoardUseCase>(CreateBoardUseCase());
   getIt.registerSingleton<CreateListUseCase>(CreateListUseCase());
   getIt.registerSingleton<BoardDetailsUseCase>(BoardDetailsUseCase());
   getIt.registerSingleton<CreateItemUseCase>(CreateItemUseCase());
+  getIt.registerSingleton<WatchItemsUseCase>(WatchItemsUseCase());
 }
