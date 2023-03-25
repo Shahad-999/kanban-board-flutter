@@ -83,8 +83,8 @@ class KanbanRepositoryImp extends KanbanRepository {
   }
 
   @override
-  Stream<List<ItemModel>> getAllActiveItem() {
-    return itemDao.getAllActiveItem()
+  Stream<List<ItemModel>> getRecentItem() {
+    return itemDao.getAllRecentItems()
         .map((event) => ItemModel.mapFromListOfEntity(event));
   }
 
@@ -110,5 +110,10 @@ class KanbanRepositoryImp extends KanbanRepository {
   @override
   Future<int> reorderList(int listId, int newOrder) {
     return listDao.updateList(listId, newOrder);
+  }
+
+  @override
+  Future<int> watchItem(int itemId){
+    return itemDao.watchItem(itemId);
   }
 }

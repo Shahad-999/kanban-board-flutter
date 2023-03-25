@@ -728,6 +728,14 @@ class $RecentItemsTable extends RecentItems
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $RecentItemsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _itemIdMeta = const VerificationMeta('itemId');
+  @override
+  late final GeneratedColumn<int> itemId = GeneratedColumn<int>(
+      'item_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES items (id)'));
   static const VerificationMeta _timeMeta = const VerificationMeta('time');
   @override
   late final GeneratedColumn<DateTime> time = GeneratedColumn<DateTime>(
@@ -737,7 +745,7 @@ class $RecentItemsTable extends RecentItems
       requiredDuringInsert: false,
       defaultValue: currentDateAndTime);
   @override
-  List<GeneratedColumn> get $columns => [time];
+  List<GeneratedColumn> get $columns => [itemId, time];
   @override
   String get aliasedName => _alias ?? 'recent_items';
   @override
@@ -747,6 +755,12 @@ class $RecentItemsTable extends RecentItems
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('item_id')) {
+      context.handle(_itemIdMeta,
+          itemId.isAcceptableOrUnknown(data['item_id']!, _itemIdMeta));
+    } else if (isInserting) {
+      context.missing(_itemIdMeta);
+    }
     if (data.containsKey('time')) {
       context.handle(
           _timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
@@ -760,10 +774,10 @@ class $RecentItemsTable extends RecentItems
   RecentItemEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return RecentItemEntity(
-       attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-       attachedDatabase.typeMapping
-           .read(DriftSqlType.dateTime, data['${effectivePrefix}time'])!,
+      itemId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}item_id'])!,
+      time: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}time'])!,
     );
   }
 
@@ -774,41 +788,51 @@ class $RecentItemsTable extends RecentItems
 }
 
 class RecentItemsCompanion extends UpdateCompanion<RecentItemEntity> {
+  final Value<int> itemId;
   final Value<DateTime> time;
-  final Value<int> id;
+  final Value<int> rowid;
   const RecentItemsCompanion({
+    this.itemId = const Value.absent(),
     this.time = const Value.absent(),
-    this.id = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   RecentItemsCompanion.insert({
+    required int itemId,
     this.time = const Value.absent(),
-    this.id = const Value.absent(),
-  });
+    this.rowid = const Value.absent(),
+  }) : itemId = Value(itemId);
   static Insertable<RecentItemEntity> custom({
+    Expression<int>? itemId,
     Expression<DateTime>? time,
-    Expression<int>? id,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
+      if (itemId != null) 'item_id': itemId,
       if (time != null) 'time': time,
-      if (id != null) 'id': id,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
-  RecentItemsCompanion copyWith({Value<DateTime>? time, Value<int>? id}) {
+  RecentItemsCompanion copyWith(
+      {Value<int>? itemId, Value<DateTime>? time, Value<int>? rowid}) {
     return RecentItemsCompanion(
+      itemId: itemId ?? this.itemId,
       time: time ?? this.time,
-      id: id ?? this.id,
+      rowid: rowid ?? this.rowid,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (itemId.present) {
+      map['item_id'] = Variable<int>(itemId.value);
+    }
     if (time.present) {
       map['time'] = Variable<DateTime>(time.value);
     }
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -816,8 +840,9 @@ class RecentItemsCompanion extends UpdateCompanion<RecentItemEntity> {
   @override
   String toString() {
     return (StringBuffer('RecentItemsCompanion(')
+          ..write('itemId: $itemId, ')
           ..write('time: $time, ')
-          ..write('id: $id')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }

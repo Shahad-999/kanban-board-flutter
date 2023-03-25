@@ -11,11 +11,10 @@ part 'item_state.dart';
 
 class ItemCubit extends Cubit<ItemState> {
   late final StreamSubscription _subscription;
-  final ActiveItemsUseCase activeItemsUseCase;
-  final int limitActiveInHome = 3;
+  final RecentItemsUseCase recentItemsUseCase;
 
   ItemCubit()
-      : activeItemsUseCase = getIt.get(),
+      : recentItemsUseCase = getIt.get(),
         super(ItemInitial()) {
     _subscribe();
   }
@@ -25,9 +24,8 @@ class ItemCubit extends Cubit<ItemState> {
   }
 
   _subscribe() {
-    _subscription = activeItemsUseCase.getActiveItems(limitActiveInHome).listen(
+    _subscription = recentItemsUseCase.getRecentItems().listen(
       (items) {
-        print(items);
         if (items.isEmpty) {
           emit(ItemEmpty());
         } else {
