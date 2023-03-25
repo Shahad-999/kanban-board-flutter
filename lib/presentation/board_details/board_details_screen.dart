@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanban_board_flutter/presentation/board_details/widgets/board_details_body.dart';
 import 'package:kanban_board_flutter/presentation/board_details/widgets/create_list_modal_bottom_sheet.dart';
+import 'package:kanban_board_flutter/utils/common_function.dart';
 import 'package:kanban_board_flutter/view_models/board_details_cubit/lists_of_board_cubit.dart';
 
+import '../../routing/routes.dart';
 import '../../view_models/board_details_cubit/board_details_cubit.dart';
 import '../../widgets/floating_action_buttons.dart';
 import '../../widgets/navigation_app_bar.dart';
@@ -14,6 +16,10 @@ class BoardDetailsScreen extends StatelessWidget {
   final String boardId;
 
   final ListsOfBoardCubit _listsOfBoardCubit = ListsOfBoardCubit();
+
+  void _navToEditBoard(BuildContext context) {
+    pushPage(context, AppRouter.editBoardParam(boardId));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +36,14 @@ class BoardDetailsScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: NavigationAppBar(
-          actions: [favoriteAction(context), infoAction(context, () {})],
+          actions: [
+            favoriteAction(context),
+            infoAction(context, () {
+              _navToEditBoard(context);
+            })
+          ],
         ),
-        body:  BoardDetailsBody(),
+        body: BoardDetailsBody(),
         backgroundColor: Theme.of(context).colorScheme.background,
         floatingActionButton: AppFloatingActionButton(
           onPressed: () {
