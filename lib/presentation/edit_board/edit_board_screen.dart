@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kanban_board_flutter/presentation/edit_board/widgets/edit_board_body.dart';
 import 'package:kanban_board_flutter/widgets/navigation_app_bar.dart';
 
 class EditBoardScreen extends StatelessWidget {
@@ -10,7 +11,7 @@ class EditBoardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: const NavigationAppBar(),
-      body: Text('board $boardId'),
+      body:  EditBoardBody(),
     );
   }
 }
