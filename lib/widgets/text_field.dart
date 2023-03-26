@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:size_config/size_config.dart';
 
 class GeneralTextField extends StatefulWidget {
-  const GeneralTextField({Key? key, required this.maxLength, required this.maxLine, required this.onChange, this.textController}) : super(key: key);
+  const GeneralTextField({Key? key, required this.maxLength, required this.maxLine, this.onChange, this.textController}) : super(key: key);
 
   final int maxLength;
   final int maxLine;
-  final Function(String) onChange;
+  final Function(String)? onChange;
   final TextEditingController? textController;
   @override
   State<GeneralTextField> createState() => _GeneralTextFieldState();
@@ -44,7 +44,7 @@ class _GeneralTextFieldState extends State<GeneralTextField> {
         fontWeight: FontWeight.normal,
       ),
       onChanged: (value){
-        widget.onChange(value);
+        widget.onChange!(value);
         setState(() {
           textLength = value.length;
         });

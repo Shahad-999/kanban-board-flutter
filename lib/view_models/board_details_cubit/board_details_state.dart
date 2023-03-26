@@ -27,3 +27,6 @@ class BoardDetailsSuccessfully extends BoardDetailsState{
     );
   }
 }
+class BoardDeletedState extends BoardDetailsState {
+
+}

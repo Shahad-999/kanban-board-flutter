@@ -48,7 +48,6 @@ class _CreateListModalBottomSheetState
                 GeneralTextField(
                   maxLength: 200,
                   maxLine: 1,
-                  onChange: (v) {},
                   textController: _titleController,
                 ),
                 SizedBox(height: 32.h),

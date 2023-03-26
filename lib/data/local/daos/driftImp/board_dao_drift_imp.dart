@@ -82,10 +82,34 @@ class BoardDrfitImp extends BoardDao {
   }
 
   @override
-  Future<BoardEntity> getBoard(int boardId) async {
-    return await (database.select(database.boards)
-          ..where((tbl) => tbl.id.equals(boardId)))
-        .get()
-        .then((value) => value.first);
+  Stream<BoardEntity>? getBoard(int boardId)  {
+    try{
+      return  (database.select(database.boards)
+        ..where((tbl) => tbl.id.equals(boardId)))
+          .watchSingle();
+    }catch(e){
+      return null;
+    }
+  }
+
+  @override
+  Future<int> updateBoardTitle(int boardId, String title) {
+
+    return (database.update(database.boards)
+      ..where((tbl) => tbl.id.equals(boardId)))
+        .write(BoardsCompanion(
+        title: Value(title)
+    )
+    );
+  }
+  @override
+  Future<int> updateBoardDescription(int boardId, String description) {
+
+    return (database.update(database.boards)
+      ..where((tbl) => tbl.id.equals(boardId)))
+        .write(BoardsCompanion(
+        description: Value(description)
+    )
+    );
   }
 }
