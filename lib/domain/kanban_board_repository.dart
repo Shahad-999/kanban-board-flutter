@@ -9,9 +9,11 @@ abstract class KanbanRepository{
   Stream<List<BoardModel>> getAllBoard();
   Future<int> addBoard(BoardModel board);
   Future deleteBoard(int boardId);
-  Future<BoardModel> getBoard(int boardId);
+  Stream<BoardModel> getBoard(int boardId);
   Future clearAllBoard();
   Future<int> favoriteBoard(int boardId,bool isFavorite);
+  Future<int> updateBoardTitle(int boardId,String title);
+  Future<int> updateBoardDescription(int boardId,String description);
   //endregion board
 
   //region list

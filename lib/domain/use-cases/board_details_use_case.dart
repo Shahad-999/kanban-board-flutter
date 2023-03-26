@@ -10,8 +10,8 @@ class BoardDetailsUseCase {
   final KanbanRepository repository;
   BoardDetailsUseCase() : repository = getIt.get();
 
-  Future<BoardModel> getBoard(int boardId) async{
-    return  await repository.getBoard(boardId);
+  Stream<BoardModel> getBoard(int boardId) {
+    return  repository.getBoard(boardId);
   }
 
   Stream<List<ListModel>> getListsForBoard(int boardId) {
