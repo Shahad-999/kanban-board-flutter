@@ -2,6 +2,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanban_board_flutter/domain/models/item_model.dart';
 import 'package:kanban_board_flutter/domain/use-cases/create_list_use_case.dart';
+import 'package:kanban_board_flutter/domain/use-cases/edit_list_use_case.dart';
 import 'package:kanban_board_flutter/domain/use-cases/watch_item_use_case.dart';
 
 import '../../domain/models/list_model.dart';
@@ -14,11 +15,13 @@ class ListsOfBoardCubit extends Cubit<List<ListUi>> {
   late final BoardDetailsUseCase boardDetailsUseCase;
   late final CreateListUseCase createListUseCase;
   late final WatchItemsUseCase _watchItemsUseCase;
+  late final EditListUseCase _editListUseCase;
 
   ListsOfBoardCubit()
       : boardDetailsUseCase = getIt.get(),
         createListUseCase = getIt.get(),
         _watchItemsUseCase = getIt.get(),
+  _editListUseCase = getIt.get(),
       super([]);
 
   late List<ListModel> currentList ;
@@ -52,4 +55,15 @@ class ListsOfBoardCubit extends Cubit<List<ListUi>> {
     print('cubit itemID : ${item.id}');
     _watchItemsUseCase.watchItem(item.id);
   }
+
+  void updateTitle(int index,String title){
+    if (state[index].title != title) {
+      _editListUseCase.editListTitle(state[index].id, title);
+    }
+  }
+
+  void deleteList(int index)  {
+    _editListUseCase.deleteList(state[index].id);
+  }
+
 }

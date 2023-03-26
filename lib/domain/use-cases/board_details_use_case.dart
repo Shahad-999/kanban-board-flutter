@@ -10,7 +10,7 @@ class BoardDetailsUseCase {
   final KanbanRepository repository;
   BoardDetailsUseCase() : repository = getIt.get();
 
-  Stream<BoardModel> getBoard(int boardId) {
+  Stream<BoardModel>? getBoard(int boardId) {
     return  repository.getBoard(boardId);
   }
 

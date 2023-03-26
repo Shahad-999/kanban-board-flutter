@@ -96,10 +96,10 @@ class KanbanRepositoryImp extends KanbanRepository {
   }
 
   @override
-  Stream<BoardModel> getBoard(int boardId) {
-    return boardDao
-        .getBoard(boardId)
-        .map((value) => BoardModel.mapFromEntity(value));
+  Stream<BoardModel>? getBoard(int boardId) {
+      return boardDao
+          .getBoard(boardId)
+          ?.map((value) => BoardModel.mapFromEntity(value));
   }
 
   @override
@@ -125,5 +125,9 @@ class KanbanRepositoryImp extends KanbanRepository {
   @override
   Future<int> updateBoardTitle(int boardId, String title) {
     return boardDao.updateBoardTitle(boardId, title);
+  }
+  @override
+  Future<int> updateListTitle(int listId, String title) {
+    return listDao.updateListTitle(listId, title);
   }
 }

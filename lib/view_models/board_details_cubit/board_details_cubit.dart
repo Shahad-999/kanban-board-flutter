@@ -16,7 +16,7 @@ class BoardDetailsCubit extends Cubit<BoardDetailsState> {
         super(BoardDetailsInitial());
 
   void getBoard(int boardId)  {
-    boardDetailsUseCase.getBoard(boardId).listen((boardDetails) {
+    boardDetailsUseCase.getBoard(boardId)?.listen((boardDetails) {
       emit(BoardDetailsSuccessfully(boardId, boardDetails.title, boardDetails.description, boardDetails.isFavorite));
     });
   }

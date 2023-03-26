@@ -4,6 +4,7 @@ import 'package:kanban_board_flutter/presentation/edit_board/widgets/edit_board_
 import 'package:kanban_board_flutter/widgets/navigation_app_bar.dart';
 
 import '../../view_models/board_details_cubit/board_details_cubit.dart';
+import '../../view_models/board_details_cubit/lists_of_board_cubit.dart';
 
 class EditBoardScreen extends StatelessWidget {
   const EditBoardScreen({Key? key, required this.boardId}) : super(key: key);
@@ -17,8 +18,15 @@ class EditBoardScreen extends StatelessWidget {
           .colorScheme
           .background,
       appBar: const NavigationAppBar(),
-      body: BlocProvider(
-        create: (context) => BoardDetailsCubit()..getBoard(int.parse(boardId)),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<BoardDetailsCubit>(
+              create: (BuildContext context) =>
+              BoardDetailsCubit()..getBoard(int.parse(boardId))),
+          BlocProvider<ListsOfBoardCubit>(
+              create: (BuildContext context) =>
+              ListsOfBoardCubit()..getLists(int.parse(boardId))),
+        ],
         child: const EditBoardBody(),
       ),
     );

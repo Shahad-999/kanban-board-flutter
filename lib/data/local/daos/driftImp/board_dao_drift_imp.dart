@@ -82,11 +82,14 @@ class BoardDrfitImp extends BoardDao {
   }
 
   @override
-  Stream<BoardEntity> getBoard(int boardId)  {
-    return  (database.select(database.boards)
-          ..where((tbl) => tbl.id.equals(boardId)))
-        .watchSingle();
-        // .then((value) => value.first);
+  Stream<BoardEntity>? getBoard(int boardId)  {
+    try{
+      return  (database.select(database.boards)
+        ..where((tbl) => tbl.id.equals(boardId)))
+          .watchSingle();
+    }catch(e){
+      return null;
+    }
   }
 
   @override
