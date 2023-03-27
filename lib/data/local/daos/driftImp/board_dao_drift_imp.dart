@@ -65,6 +65,7 @@ class BoardDrfitImp extends BoardDao {
 
   }
 
+
   Future<List<int>> getAllList(int boardId) async {
     return await (database.select(database.lists)
           ..where((tbl) => tbl.boardId.equals(1))
@@ -111,5 +112,35 @@ class BoardDrfitImp extends BoardDao {
         description: Value(description)
     )
     );
+  }
+
+  @override
+  Stream<List<BoardEntity>> getFavoriteBoard() {
+    return (database.select(database.boards,distinct: true)
+        .join([
+      leftOuterJoin(database.lists, database.lists.boardId.equalsExp(database.boards.id)),
+      leftOuterJoin(database.items, database.items.listId.equalsExp(database.lists.id))
+    ])
+      ..where(database.boards.isFavorite.isValue(true))
+      ..groupBy([database.boards.id,database.lists.id,database.items.id]))
+        .watch()
+        .map((rows) {
+      final groupedData = <BoardEntity, Map<int,int>>{};
+
+      for (final row in rows) {
+        final boards = row.readTable(database.boards);
+        final lists = row.readTableOrNull(database.lists);
+        final items = row.readTableOrNull(database.lists);
+
+        final board = groupedData.putIfAbsent(boards, () => {});
+        if (lists != null) {
+          final list = board.putIfAbsent(lists.id,()=>0);
+          if(items != null ) board.update(lists.id, (value) => list+1);
+        }
+      }
+      return groupedData.entries.map((e){
+        return e.key.copyWith(list: e.value.entries.map((e) => e.value).toList());
+      }).toList();
+    });
   }
 }

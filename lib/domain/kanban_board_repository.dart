@@ -7,6 +7,7 @@ abstract class KanbanRepository{
 
   //region board
   Stream<List<BoardModel>> getAllBoard();
+  Stream<List<BoardModel>> getFavoriteBoard();
   Future<int> addBoard(BoardModel board);
   Future deleteBoard(int boardId);
   Stream<BoardModel>? getBoard(int boardId);
@@ -26,7 +27,6 @@ abstract class KanbanRepository{
 
   //region item
   Stream<List<ItemModel>> getAllItem(int listId);
-  Stream<List<ItemModel>> getRecentItem();
   Future<int>  addItem(ItemModel item);
   Future deleteItem(int itemId);
 

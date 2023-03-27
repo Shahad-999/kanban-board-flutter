@@ -51,7 +51,7 @@ class CreateBoardCubit extends Cubit<BoardInfoState> {
         id: 0,
         title: state.title,
         description: state.description,
-        isFavorite: state.isButtonEnabled,
+        isFavorite: state.isImportant,
         createdDate: DateTime.now(),
         lastUpdateDate: DateTime.now()));
 

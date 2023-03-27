@@ -20,23 +20,6 @@ class ItemDriftImp extends ItemDao{
   }
 
   @override
-  Stream<List<ItemWithBoards>> getAllRecentItems() {
-    return (database.select(database.items)
-        .join(
-        [
-          innerJoin(database.lists, database.lists.id.equalsExp(database.items.listId),useColumns: false),
-          leftOuterJoin(database.boards, database.boards.id.equalsExp(database.lists.boardId))
-        ]
-    )
-      ).map((row){
-       return ItemWithBoards(
-         item: row.readTable(database.items),
-          boardName: row.readTable(database.boards).title,
-        );
-    }).watch();
-  }
-
-  @override
   Future deleteItem(int itemId) async{
     return await (database.delete(database.items)
       ..where((tbl) => tbl.id.equals(itemId)))

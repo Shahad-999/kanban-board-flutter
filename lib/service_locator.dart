@@ -8,7 +8,7 @@ import 'package:kanban_board_flutter/data/local/daos/driftImp/board_dao_drift_im
 import 'package:kanban_board_flutter/data/local/daos/driftImp/item_dao_drift_imp.dart';
 import 'package:kanban_board_flutter/data/local/database.dart';
 import 'package:kanban_board_flutter/domain/kanban_board_repository.dart';
-import 'package:kanban_board_flutter/domain/use-cases/active_item_use_case.dart';
+import 'package:kanban_board_flutter/domain/use-cases/favorite_boards_use_case.dart';
 import 'package:kanban_board_flutter/domain/use-cases/board_details_use_case.dart';
 import 'package:kanban_board_flutter/domain/use-cases/boards_use_case.dart';
 import 'package:kanban_board_flutter/domain/use-cases/edit_board_use_case.dart';
@@ -26,7 +26,7 @@ setup() {
   getIt.registerSingleton<ListDao>(ListDriftImp());
   getIt.registerSingleton<ItemDao>(ItemDriftImp());
   getIt.registerSingleton<KanbanRepository>(KanbanRepositoryImp());
-  getIt.registerSingleton<RecentItemsUseCase>(RecentItemsUseCase());
+  getIt.registerSingleton<FavoriteBoardsUseCase>(FavoriteBoardsUseCase());
   getIt.registerSingleton<BoardsUseCase>(BoardsUseCase());
   getIt.registerSingleton<CreateBoardUseCase>(CreateBoardUseCase());
   getIt.registerSingleton<CreateListUseCase>(CreateListUseCase());

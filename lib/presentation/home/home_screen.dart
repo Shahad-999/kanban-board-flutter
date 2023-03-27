@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kanban_board_flutter/presentation/home/widgets/home_screen_body.dart';
 import '../../view_models/home_cubits/board/board_cubit.dart';
-import '../../view_models/home_cubits/item/item_cubit.dart';
+import '../../view_models/home_cubits/item/favorite_board_cubit.dart';
 import '../../widgets/floating_action_buttons.dart';
 import '../../widgets/general_app_bar.dart';
 import '../../routing/routes.dart';
@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
       body: MultiBlocProvider(
           providers: [
             BlocProvider<BoardCubit>(create: (BuildContext context) => BoardCubit()),
-            BlocProvider<ItemCubit>(create: (BuildContext context) => ItemCubit())
+            BlocProvider<FavoriteBoardsCubit>(create: (BuildContext context) => FavoriteBoardsCubit())
           ],
           child: HomeScreenBody()
       ),

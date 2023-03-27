@@ -76,16 +76,17 @@ class KanbanRepositoryImp extends KanbanRepository {
   }
 
   @override
+  Stream<List<BoardModel>> getFavoriteBoard() {
+    return boardDao
+        .getFavoriteBoard()
+        .map((event) => BoardModel.mapFromListOfEntity(event));
+  }
+
+  @override
   Stream<List<ItemModel>> getAllItem(int listId) {
     return itemDao
         .getAllItem(listId)
         .map((event) => ItemModel.mapFromListOfEntity(event.map((e) => ItemWithBoards(item: e, boardName: 'boardName')).toList())); //TODO CHANGE IT LATER
-  }
-
-  @override
-  Stream<List<ItemModel>> getRecentItem() {
-    return itemDao.getAllRecentItems()
-        .map((event) => ItemModel.mapFromListOfEntity(event));
   }
 
   @override

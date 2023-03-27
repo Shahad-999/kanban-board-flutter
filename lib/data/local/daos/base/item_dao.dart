@@ -6,7 +6,6 @@ abstract class ItemDao{
 
 
   Stream<List<ItemEntity>> getAllItem(int listId);
-  Stream<List<ItemWithBoards>> getAllRecentItems();
   Future<int>  addItem(ItemEntity item);
   Future deleteItem(int itemId);
 
