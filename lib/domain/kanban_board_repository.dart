@@ -28,7 +28,6 @@ abstract class KanbanRepository{
   Stream<List<ItemModel>> getAllItem(int listId);
   Stream<List<ItemModel>> getRecentItem();
   Future<int>  addItem(ItemModel item);
-  Future<int>  watchItem(int itemId);
   Future deleteItem(int itemId);
 
   Future<int> moveItem(int itemId,int listId);

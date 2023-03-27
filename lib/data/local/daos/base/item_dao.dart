@@ -12,5 +12,4 @@ abstract class ItemDao{
 
   Future<int> moveItem(int itemId,int listId);
   Future<int> favoriteItem(int itemId,bool isImportant);
-  Future<int> watchItem(int itemId);
 }

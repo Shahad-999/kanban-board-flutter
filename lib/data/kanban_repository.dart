@@ -113,11 +113,6 @@ class KanbanRepositoryImp extends KanbanRepository {
   }
 
   @override
-  Future<int> watchItem(int itemId){
-    return itemDao.watchItem(itemId);
-  }
-
-  @override
   Future<int> updateBoardDescription(int boardId, String description) {
     return boardDao.updateBoardDescription(boardId, description);
   }

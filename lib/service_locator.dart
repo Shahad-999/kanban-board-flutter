@@ -12,7 +12,7 @@ import 'package:kanban_board_flutter/domain/use-cases/active_item_use_case.dart'
 import 'package:kanban_board_flutter/domain/use-cases/board_details_use_case.dart';
 import 'package:kanban_board_flutter/domain/use-cases/boards_use_case.dart';
 import 'package:kanban_board_flutter/domain/use-cases/edit_board_use_case.dart';
-import 'package:kanban_board_flutter/domain/use-cases/watch_item_use_case.dart';
+import 'package:kanban_board_flutter/domain/use-cases/delete_item_use_case.dart';
 import 'domain/use-cases/create_board_use_case.dart';
 import 'domain/use-cases/create_item_use_case.dart';
 import 'domain/use-cases/create_list_use_case.dart';
@@ -32,7 +32,7 @@ setup() {
   getIt.registerSingleton<CreateListUseCase>(CreateListUseCase());
   getIt.registerSingleton<BoardDetailsUseCase>(BoardDetailsUseCase());
   getIt.registerSingleton<CreateItemUseCase>(CreateItemUseCase());
-  getIt.registerSingleton<WatchItemsUseCase>(WatchItemsUseCase());
+  getIt.registerSingleton<DeleteItemsUseCase>(DeleteItemsUseCase());
   getIt.registerSingleton<EditBoardUseCase>(EditBoardUseCase());
   getIt.registerSingleton<EditListUseCase>(EditListUseCase());
 }
