@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:size_config/size_config.dart';
 import '../../../view_models/home_cubits/board/board_cubit.dart';
-import '../../../view_models/home_cubits/item/item_cubit.dart';
+import '../../../view_models/home_cubits/item/favorite_board_cubit.dart';
 import 'board_section.dart';
 import 'empty_view.dart';
-import 'item_section.dart';
+import 'favorite_boards_section.dart';
 
 class HomeScreenBody extends StatelessWidget {
   HomeScreenBody({Key? key}) : super(key: key);
 
-  List<Widget> children = [const ItemSection(),const BoardSection()];
+  List<Widget> children = [const FavoriteBoardsSection(),const BoardSection()];
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +21,8 @@ class HomeScreenBody extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: BlocBuilder<ItemCubit, ItemState>(
+                child: BlocBuilder<FavoriteBoardsCubit, BoardState>(
                   builder: (context, state) {
-                    if (state is ItemEmpty) {
-                      children.removeWhere((element) => element is ItemSection);
-                    }
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: children,

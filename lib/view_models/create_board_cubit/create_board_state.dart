@@ -10,7 +10,7 @@ class BoardInfoState {
   BoardInfoState({
     this.title = '',
     this.description = '',
-    this.isImportant = false,
+    this.isImportant = true,
     this.list = const ['TODO'],
     this.isButtonEnabled = false,
   });

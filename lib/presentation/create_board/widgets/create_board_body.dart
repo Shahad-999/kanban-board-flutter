@@ -64,7 +64,11 @@ class CreateBoardBody extends StatelessWidget {
                                           fontWeight: FontWeight.w500),
                                 ),
                               ),
-                              const CustomSwitch(),
+                               CustomSwitch(
+                                onChange: (isImportant){
+                                  context.read<CreateBoardCubit>().updateIsImportant(isImportant);
+                                },
+                              ),
                             ],
                           ),
                           SizedBox(height: 16.h),
