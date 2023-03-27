@@ -5,6 +5,7 @@ import 'package:kanban_board_flutter/view_models/board_details_cubit/board_detai
 import 'package:size_config/size_config.dart';
 
 import '../../../routing/routes.dart';
+import '../../../widgets/dialog.dart';
 import 'general_info_section.dart';
 import 'lists_section.dart';
 
@@ -37,15 +38,16 @@ class EditBoardBody extends StatelessWidget {
                 alignment: Alignment.bottomLeft,
                 child: TextButton(
                   onPressed: () {
-                    _deleteBoard(context);
+                    showDeleteDialog(context, () {
+                      _deleteBoard(context);
+                    }, 'Delete Board', 'Do you want to delete this board ? ');
                   },
                   child: Text(
                     'Delete this Board',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.red
-                    ),
+                        color: Colors.red),
                   ),
                 ),
               ),
