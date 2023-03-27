@@ -5,7 +5,7 @@ import '../../../view_models/home_cubits/board/board_cubit.dart';
 import '../../../view_models/home_cubits/item/favorite_board_cubit.dart';
 import 'board_section.dart';
 import 'empty_view.dart';
-import 'item_section.dart';
+import 'favorite_boards_section.dart';
 
 class HomeScreenBody extends StatelessWidget {
   HomeScreenBody({Key? key}) : super(key: key);

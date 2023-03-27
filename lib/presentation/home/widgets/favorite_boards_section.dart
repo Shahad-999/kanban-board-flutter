@@ -2,14 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanban_board_flutter/view_models/home_cubits/item/favorite_board_cubit.dart';
 
+import '../../../routing/routes.dart';
+import '../../../utils/common_function.dart';
 import '../../../view_models/home_cubits/board/board_cubit.dart';
 import '../../../widgets/section_header.dart';
+import 'favorite_board_view.dart';
 
 class FavoriteBoardsSection extends StatelessWidget {
   const FavoriteBoardsSection({Key? key}) : super(key: key);
 
-  void _navToTaskDetails(int taskId) {
-    //TODO nav to TaskDetails
+  void _navToBoardDetails(BuildContext context,int boardId) {
+    pushPage(context,AppRouter.boardDetailsParam('$boardId'));
   }
 
   @override
@@ -22,17 +25,9 @@ class FavoriteBoardsSection extends StatelessWidget {
             height: 100,
             child: ListView.builder(
                 itemCount: state.boards.length,
-                shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        color: CupertinoColors.destructiveRed,
-                        height: 50,
-                        width: 100,
-                        child: Center(child: Text(state.boards[index].title))),
-                  );
+                  return FavoriteBoardView(board: state.boards[index], onTap: (id){_navToBoardDetails(context,id);});
                 }),
           )
         ]);
