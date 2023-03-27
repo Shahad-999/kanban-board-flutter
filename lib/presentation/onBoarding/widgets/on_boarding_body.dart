@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:size_config/size_config.dart';
-
-import '../../../../widgets/app_buttons.dart';
-import '../../../../widgets/app_indicator.dart';
-import '../../../../routing/routes.dart';
+import '../../../routing/routes.dart';
 import 'on_boarding_pages.dart';
 
 class OnBoardingBody extends StatefulWidget {
@@ -20,28 +17,31 @@ class _OnBoardingBodyState extends State<OnBoardingBody> {
 
   @override
   void initState() {
-    pageController = PageController(
-        initialPage: 0
-    )..addListener(() {
-      setState(() {});
-    });
+    pageController = PageController(initialPage: 0)
+      ..addListener(() {
+        setState(() {});
+      });
     super.initState();
   }
 
-  navToNextPage(){
-    pageController?.nextPage(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeIn
-    );
+  navToNextPage() {
+    num currentPage =
+        pageController!.hasClients ? pageController?.page ?? 0 : 0;
+    if (currentPage == pageCount - 1) {
+      GoRouter.of(context).go(AppRouter.homeRoute);
+    } else {
+      pageController?.nextPage(
+          duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+    }
   }
-  navToPreviousPage(){
+
+  navToPreviousPage() {
     pageController?.previousPage(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeOut
-    );
+        duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
   }
-  Future<bool> onPressBack(){
-    if(pageController?.page != 0) {
+
+  Future<bool> onPressBack() {
+    if (pageController?.page != 0) {
       navToPreviousPage();
       return Future.value(false);
     }
@@ -54,52 +54,48 @@ class _OnBoardingBodyState extends State<OnBoardingBody> {
       onWillPop: () => onPressBack(),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: Stack(
-          children:  [
-            Positioned(
-              top: 617.h,
-              left: 56.w,
-              right: 56.w,
-              child: AppButton(
-                isEnable: true,
-                textButton: 'NEXT',
-                onTap: navToNextPage,
+        body: Padding(
+          padding: EdgeInsets.only(top: 0.h),
+          child: Column(
+            children: [
+              Expanded(
+                  flex: 3,
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: OnBoardingPages(pageController: pageController!))),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 40.h,
+                      width: 120.w,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(24)),
+                      child: Center(
+                        child: TextButton(
+                          onPressed: navToNextPage,
+                          style: const ButtonStyle(
+                            splashFactory: NoSplash.splashFactory,
+                          ),
+                          child: Text(
+                            'Next',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(
+                                    fontSize: 15, fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Positioned(
-                top: 112.h,
-                right: 16.w,
-                child: GestureDetector(
-                  onTap: () {
-                    num currentPage = pageController!.hasClients  ? pageController?.page ?? 0 : 0;
-                    if(currentPage < pageCount){
-                      GoRouter.of(context).go(AppRouter.homeRoute);
-                    }else{
-                      null;
-                    }
-                  },
-                  child: Text(
-                    'SKIP',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                )
-            ),
-            Positioned(
-                right: 0,
-                left: 0,
-                top: 170.h,
-                child: OnBoardingPages(pageController: pageController!)
-            ),
-            Positioned(
-                right: 0,
-                left: 0,
-                top: 520.h,
-                child: AppIndicators(
-                    dotsCount: pageCount,
-                    currentPosition: pageController!.hasClients  ? pageController?.page?.roundToDouble() ?? 0.0 : 0.0
-                )
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
