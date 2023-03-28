@@ -7,6 +7,7 @@ import 'package:kanban_board_flutter/presentation/onBoarding/on_boarding_screen.
 
 import '../presentation/edit_board/edit_board_screen.dart';
 import '../presentation/home/home_screen.dart';
+import '../presentation/splashScreen/splash_screen.dart';
 
 class AppRouter{
     static const splashScreenRoute = '/splash_screen';
@@ -17,7 +18,7 @@ class AppRouter{
     static editBoardParam([String? id]) => '/edit_board/${id ?? ':id'}';
 
     static Widget _homeRouteBuilder(BuildContext context, GoRouterState state) => const HomeScreen();
-    // static Widget _splashRouteBuilder(BuildContext context, GoRouterState state) => const SplashScreen();
+    static Widget _splashRouteBuilder(BuildContext context, GoRouterState state) => const SplashScreen();
     static Widget _onBoardingRouteBuilder(BuildContext context, GoRouterState state) => const OnBoardingScreen();
     static Widget _createBoardRouteBuilder(BuildContext context, GoRouterState state) => const CreateBoardScreen();
     static Widget _boardDetailsRouteBuilder(BuildContext context, GoRouterState state) =>  BoardDetailsScreen(boardId:state.params['id']!);
@@ -26,9 +27,9 @@ class AppRouter{
 
     static final GoRouter _router =
         GoRouter(
-          initialLocation: onBoardingRoute,
+          initialLocation: splashScreenRoute,
           routes: [
-              // GoRoute(path: splashScreenRoute, redirect: (_) => SplashScreen()),
+              GoRoute(path: splashScreenRoute, builder: _splashRouteBuilder),
               GoRoute(path: onBoardingRoute, builder: _onBoardingRouteBuilder ),
               GoRoute(path: homeRoute, builder: _homeRouteBuilder),
               GoRoute(path: createBoardRoute, builder: _createBoardRouteBuilder),
