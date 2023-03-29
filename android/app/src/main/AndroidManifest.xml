@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shahad999.kanban_board_flutter">
    <application
-        android:label="kanban_board_flutter"
+        android:label="Kanban Board"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
