@@ -37,7 +37,7 @@ class CreateBoardCubit extends Cubit<BoardInfoState> {
   }
 
   void deleteItemFromList(int index) {
-    emit(state.copyWith(list: state.list..removeAt(index)));
+    emit(state.copyWith(list: state.list.toList()..removeAt(index)));
   }
 
   void updateItemInList(int index, String value) {

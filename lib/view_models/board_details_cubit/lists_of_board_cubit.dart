@@ -27,8 +27,10 @@ class ListsOfBoardCubit extends Cubit<List<ListUi>> {
   late List<ListModel> currentList ;
   void getLists(int boardId){
     boardDetailsUseCase.getListsForBoard(boardId).listen((event) {
-      currentList = event;
-      emit(ListUi.fromModels(event));
+      if(!isClosed){
+        currentList = event;
+        emit(ListUi.fromModels(event));
+      }
     });
   }
 

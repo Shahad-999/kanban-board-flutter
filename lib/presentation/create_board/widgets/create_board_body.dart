@@ -10,6 +10,10 @@ import 'list_view.dart';
 class CreateBoardBody extends StatelessWidget {
   const CreateBoardBody({Key? key}) : super(key: key);
 
+  _createBoard(BuildContext context){
+    context.read<CreateBoardCubit>().createBoard();
+    Navigator.of(context).pop();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -137,7 +141,9 @@ class CreateBoardBody extends StatelessWidget {
                   right: 24.w,
                   bottom: 32.h,
                   child: AppButton(
-                    onTap: context.read<CreateBoardCubit>().createBoard,
+                    onTap: (){
+                      _createBoard(context);
+                    },
                     textButton: 'CREATE',
                     isEnable: state.isButtonEnabled,
                   ))
