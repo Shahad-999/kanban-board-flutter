@@ -15,19 +15,11 @@ class EmptyView extends StatelessWidget {
         children: [
           SizedBox(
               height: 200.h,
-              width: 230.h,
+              width: 250.h,
               child: SvgPicture.asset(
                   'assets/svg/empty.svg',
                   semanticsLabel: 'No Boards'
               )
-          ),
-          SizedBox(height: 32.h),
-          Text(
-            'No Boards Yet',
-            style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 24.sp,
-                color: Theme.of(context).colorScheme.onSurface),
           )
         ],
       ),

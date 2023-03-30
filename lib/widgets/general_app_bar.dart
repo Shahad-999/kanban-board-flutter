@@ -12,7 +12,7 @@ class GeneralAppBar extends StatelessWidget implements PreferredSizeWidget{
       title: Text(
         'Kanban Board',
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            fontSize: 24.sp,
+            fontSize: 20.sp,
           fontWeight: FontWeight.w600,
         )
       ),
