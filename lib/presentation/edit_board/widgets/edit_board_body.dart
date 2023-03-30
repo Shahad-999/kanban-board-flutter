@@ -22,7 +22,7 @@ class EditBoardBody extends StatelessWidget {
     return BlocConsumer<BoardDetailsCubit, BoardDetailsState>(
       listener: (context, state) {
         if (state is BoardDeletedState) {
-          GoRouter.of(context).go(AppRouter.homeRoute);
+          context.pushReplacement(AppRouter.homeRoute);
         }
       },
       builder: (context, state) {
