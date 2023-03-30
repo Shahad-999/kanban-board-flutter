@@ -8,7 +8,7 @@ abstract class BoardDao{
   Stream<List<BoardEntity>> getFavoriteBoard();
   Future<int> addBoard(BoardEntity board);
   Future deleteBoard(int boardId);
-  Stream<BoardEntity>? getBoard(int boardId);
+  Stream<BoardEntity?>? getBoard(int boardId);
   Future clearAllBoard();
 
   Future<int> favoriteBoard(int boardId,bool isFavorite);

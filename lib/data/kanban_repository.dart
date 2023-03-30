@@ -97,10 +97,10 @@ class KanbanRepositoryImp extends KanbanRepository {
   }
 
   @override
-  Stream<BoardModel>? getBoard(int boardId) {
+  Stream<BoardModel?>? getBoard(int boardId) {
       return boardDao
           .getBoard(boardId)
-          ?.map((value) => BoardModel.mapFromEntity(value));
+          ?.map((value) => value != null ? BoardModel.mapFromEntity(value) : null);
   }
 
   @override

@@ -17,14 +17,16 @@ class BoardDetailsCubit extends Cubit<BoardDetailsState> {
 
   void getBoard(int boardId)  {
     boardDetailsUseCase.getBoard(boardId)?.listen((boardDetails) {
-      emit(BoardDetailsSuccessfully(boardId, boardDetails.title, boardDetails.description, boardDetails.isFavorite));
+      if(boardDetails !=null){
+         emit(BoardDetailsSuccessfully(boardId, boardDetails.title, boardDetails.description, boardDetails.isFavorite));
+      }
     });
   }
 
   void onClickIsFavorite() {
     if (state is BoardDetailsSuccessfully) {
       var details = state as BoardDetailsSuccessfully;
-      emit(details.copyWith(isFavorite: !details.isFavorite));
+      _editBoardUseCase.changeFavoriteState(!details.isFavorite, details.boardId);
     }
   }
 

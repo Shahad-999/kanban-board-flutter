@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../routing/routes.dart';
 import '../../../view_models/board_details_cubit/board_details_cubit.dart';
 import '../../create_board/widgets/input_view.dart';
 import 'edit_text_field.dart';
@@ -24,12 +22,8 @@ class GeneralInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<BoardDetailsCubit, BoardDetailsState>(
-        listener: (context, state) {
-      if (state is BoardDeletedState) {
-        GoRouter.of(context).go(AppRouter.homeRoute);
-      }
-    }, builder: (context, state) {
+    return BlocBuilder<BoardDetailsCubit, BoardDetailsState>(
+         builder: (context, state) {
       if (state is BoardDetailsSuccessfully) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

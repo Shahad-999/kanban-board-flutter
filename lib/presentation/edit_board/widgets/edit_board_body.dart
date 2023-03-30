@@ -13,7 +13,6 @@ class EditBoardBody extends StatelessWidget {
   const EditBoardBody({Key? key}) : super(key: key);
 
   _deleteBoard(BuildContext context) {
-    //TODO SHOW DIALOG
     context.read<BoardDetailsCubit>().deleteBoard();
   }
 

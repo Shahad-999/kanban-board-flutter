@@ -19,4 +19,7 @@ class EditBoardUseCase{
     return repository.deleteBoard(boardId);
   }
 
+  Future changeFavoriteState(bool isFavorite,int boardId){
+    return repository.favoriteBoard(boardId, isFavorite);
+  }
 }

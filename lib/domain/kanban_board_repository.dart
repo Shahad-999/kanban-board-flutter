@@ -10,7 +10,7 @@ abstract class KanbanRepository{
   Stream<List<BoardModel>> getFavoriteBoard();
   Future<int> addBoard(BoardModel board);
   Future deleteBoard(int boardId);
-  Stream<BoardModel>? getBoard(int boardId);
+  Stream<BoardModel?>? getBoard(int boardId);
   Future clearAllBoard();
   Future<int> favoriteBoard(int boardId,bool isFavorite);
   Future<int> updateBoardTitle(int boardId,String title);
